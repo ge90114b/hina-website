@@ -1,36 +1,54 @@
-const gulp = require('gulp');  
-const cleanCSS = require('gulp-clean-css');  
-const uglify = require('gulp-uglify');  
-const htmlmin = require('gulp-htmlmin');  
-const imagemin = require('gulp-imagemin');  
+import gulp from 'gulp';  
+import cleanCSS from 'gulp-clean-css';  
+import uglify from 'gulp-uglify';  
+import htmlmin from 'gulp-htmlmin';  
+import imagemin from 'gulp-imagemin';  
+import fs from 'fs';  
+import path from 'path';  
+import { fileURLToPath } from 'url';  
+import { dirname } from 'path';  
+  
+// 获取当前文件的 URL  
+const __filename = fileURLToPath(import.meta.url);  
+const __dirname = dirname(__filename);
+  
+// 创建一个函数来确保dist文件夹存在  
+function ensureDistFolder() {  
+  if (!fs.existsSync(path.join(__dirname, 'dist'))) {  
+    fs.mkdirSync(path.join(__dirname, 'dist'), { recursive: true });  
+  }  
+}  
   
 // 压缩CSS  
-gulp.task('minify-css', () => {  
-  return gulp.src('css/*.css') // 匹配所有的css文件  
-    .pipe(cleanCSS()) // 压缩CSS  
-    .pipe(gulp.dest('dist/css')); // 输出到dist/css目录  
+gulp.task('minify-css', function() {  
+  ensureDistFolder();  
+  return gulp.src('css/*.css')  
+    .pipe(cleanCSS())  
+    .pipe(gulp.dest('dist/css'));  
 });  
   
 // 压缩JavaScript  
-gulp.task('minify-js', () => {  
-  return gulp.src('js/*.js') // 匹配所有的js文件  
-    .pipe(uglify()) // 压缩JavaScript  
-    .pipe(gulp.dest('dist/js')); // 输出到dist/js目录  
+gulp.task('minify-js', function() {  
+  ensureDistFolder();  
+  return gulp.src('js/*.js')  
+    .pipe(uglify())  
+    .pipe(gulp.dest('dist/js'));  
 });  
-  
+// 复制图片
+gulp.task('copy-images', () => {  
+    return gulp.src('images/*') // 匹配所有的图片文件  
+        .pipe(gulp.dest('dist/images')); // 直接输出到dist/images目录，不进行压缩  
+});
 // 压缩HTML  
-gulp.task('minify-html', () => {  
-  return gulp.src('*.html') // 匹配所有的html文件  
-    .pipe(htmlmin({ collapseWhitespace: true })) // 压缩HTML  
-    .pipe(gulp.dest('dist')); // 输出到dist目录  
-});  
-  
-// 压缩图片  
-gulp.task('imagemin', () => {  
-  return gulp.src('images/*') // 匹配所有的图片文件  
-    .pipe(imagemin()) // 压缩图片  
-    .pipe(gulp.dest('dist/images')); // 输出到dist/images目录  
+gulp.task('minify-html', function() {  
+  ensureDistFolder();  
+  return gulp.src('*.html')  
+    .pipe(htmlmin({ collapseWhitespace: true }))  
+    .pipe(gulp.dest('dist'));  
 });  
   
 // 默认任务，执行所有压缩任务  
-gulp.task('default', gulp.series('minify-css', 'minify-js', 'minify-html', 'imagemin'));
+gulp.task('default', gulp.series('minify-css', 'minify-js', 'minify-html','copy-images', function(done) {  
+  console.log('Build completed!');  
+  done();  
+}));
