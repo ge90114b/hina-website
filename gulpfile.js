@@ -39,11 +39,6 @@ gulp.task('copy-images', () => {
     return gulp.src('images/*') // 匹配所有的图片文件  
         .pipe(gulp.dest('dist/images')); // 直接输出到dist/images目录，不进行压缩  
 });
-// 复制ico
-gulp.task('copy-ico', () => {  
-    return gulp.src('*.ico') // 匹配所有的图片文件  
-        .pipe(gulp.dest('dist')); // 直接输出到dist/images目录，不进行压缩  
-});
 // 压缩HTML  
 gulp.task('minify-html', function() {  
   ensureDistFolder();  
