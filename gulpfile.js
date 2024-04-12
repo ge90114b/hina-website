@@ -39,6 +39,11 @@ gulp.task('copy-images', () => {
     return gulp.src('images/*') // 匹配所有的图片文件  
         .pipe(gulp.dest('dist/images')); // 直接输出到dist/images目录，不进行压缩  
 });
+// 复制ico
+gulp.task('copy-ico', () => {  
+    return gulp.src('*.ico') // 匹配所有的图片文件  
+        .pipe(gulp.dest('dist')); // 直接输出到dist/images目录，不进行压缩  
+});
 // 压缩HTML  
 gulp.task('minify-html', function() {  
   ensureDistFolder();  
@@ -48,7 +53,7 @@ gulp.task('minify-html', function() {
 });  
   
 // 默认任务，执行所有压缩任务  
-gulp.task('default', gulp.series('minify-css', 'minify-js', 'minify-html','copy-images', function(done) {  
+gulp.task('default', gulp.series('minify-css', 'minify-js', 'minify-html','copy-images','copy-ico', function(done) {  
   console.log('Build completed!');  
   done();  
 }));
