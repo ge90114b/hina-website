@@ -21,6 +21,7 @@ fetch('https://pic.sorasakihina.love/dist/')
           const randomElement = array[Math.floor(Math.random() * array.length)];  
             
           // 构造新的 URL  
+          console.log(randomElement);
           const newUrl = `https://pic.sorasakihina.love/pics/${randomElement}`;  
             
           // 打印新的 URL 到控制台  
