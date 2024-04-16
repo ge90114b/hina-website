@@ -10,6 +10,7 @@
             height: 100vh; /* 设置高度为视口高度的100% */  
             background: linear-gradient(to top, #230023, #6c006c); /* 背景渐变 */  
             display: flex; /* 使用Flexbox布局 */  
+            flex-direction: column; /* 设置子元素垂直堆叠 */ 
             justify-content: center; /* 水平居中 */  
             align-items: center; /* 垂直居中 */  
             text-align: center; /* 文本居中 */  
@@ -19,13 +20,22 @@
             font-size: 3em;
         }
         .wife-img{
-            height: 100%;
+            height: 90%;
             width: auto;
+            display: block;  
+ 
+        }
+        .text{
+            font-size: 16px;
+            text-align: center;
+            color: #d500d5;
         }
     </style>
 </head>
 <body>
+    <div class="text">点击图片刷新</div>
     <img id="random-image" alt="Random Image" class="wife-img"> 
+    <a href="https://doujin.sorasakihina.love" class="text">同人本图鉴（开发中）</a>
     <script src="/js/random.js"></script> 
 </body>
 </html>
